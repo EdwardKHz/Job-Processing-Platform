@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/jobs")
 public class JobController {
 
     private JobService jobService;
@@ -18,18 +19,23 @@ public class JobController {
         this.jobService = jobService;
     }
 
-    @PostMapping("/jobs")
+    @PostMapping()
     public Job createJob(@RequestParam String type) {
         return jobService.createJob(type);
     }
 
-    @GetMapping("/jobs")
+    @GetMapping()
     public List<Job> listJobs() {
         return jobService.getAllJobs();
     }
 
-    @GetMapping("/jobs/{id}")
+    @GetMapping("/{id}")
     public Job getJobById(@PathVariable UUID id) {
         return jobService.getJobById(id);
+    }
+
+    @PostMapping("/{id}/process")
+    public Job processJob(@PathVariable UUID id) {
+        return jobService.processJob(id);
     }
 }
