@@ -37,4 +37,29 @@ public class JobService {
                 .orElseThrow(() -> new RuntimeException("Job not found"));
     }
 
+    public Job processJob(UUID id) {
+        Job job = getJobById(id);
+
+        job.setStatus(JobStatus.PROCESSING);
+        job.setUpdatedAt(LocalDateTime.now());
+        jobRepository.save(job);
+
+        try {
+            // Simulate work
+            Thread.sleep(3000);
+
+            job.setStatus(JobStatus.COMPLETED);
+            job.setCompletedAt(LocalDateTime.now());
+            job.setUpdatedAt(LocalDateTime.now());
+
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+
+            job.setStatus(JobStatus.FAILED);
+            job.setUpdatedAt(LocalDateTime.now());
+        }
+
+        return jobRepository.save(job);
+    }
+
 }

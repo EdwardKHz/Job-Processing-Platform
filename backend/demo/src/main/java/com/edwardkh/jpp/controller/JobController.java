@@ -32,4 +32,9 @@ public class JobController {
     public Job getJobById(@PathVariable UUID id) {
         return jobService.getJobById(id);
     }
+
+    @PostMapping("/{id}/process")
+    public Job processJob(@PathVariable UUID id) {
+        return jobService.processJob(id);
+    }
 }
